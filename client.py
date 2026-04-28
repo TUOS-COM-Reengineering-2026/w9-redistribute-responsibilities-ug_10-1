@@ -20,7 +20,7 @@ def client():
     assert branch_london.get_opening_time() == "8:00"
 
     staff_john = Staff(name="John")
-    bank.add_staff_member(branch=branch_london, staff=staff_john)
+    branch_london.add_staff_member(staff_john)
     assert staff_john in branch_london.get_staff()
 
     branch_sheffield = Branch(location="Sheffield")
@@ -38,18 +38,18 @@ def client():
     bank.setup_new_account(account=account_alice, customer=customer_alice)
     assert account_alice in bank.accounts
     assert customer_alice in bank.customers
-    assert bank.customer_addresses[customer_alice] == "NO ADDRESS"
-    assert bank.customer_phone_numbers[customer_alice] == "NO PHONE NUMBER"
+    assert customer_alice.get_address() == "NO ADDRESS"
+    assert customer_alice.get_phone_number() == "NO PHONE NUMBER"
 
     account_alice_new = Account()
     bank.setup_new_account(account=account_alice_new, customer=customer_alice)
     assert account_alice_new in bank.accounts
     assert len(bank.customers) == 1
 
-    bank.add_funds(account=account_alice, amount=1000)
+    account_alice.add_funds(1000)
     assert account_alice.get_balance() == 1000.0
 
-    bank.add_interest(account=account_alice)
+    account_alice.add_interest()
     assert account_alice.get_balance() == 1000.0 + 0.05 * 1000.0
 
     bank.close_account(account=account_alice)

@@ -21,8 +21,8 @@ class Bank:
     def __init__(self):
         self.accounts = []
         self.customers = []
-        self.customer_addresses = {}  # key: customer, value: address
-        self.customer_phone_numbers = {}  # key: customer, value: phone number
+        # moved to Customer: self.customer_addresses = {}  # key: customer, value: address
+        # moved to Customer: self.customer_phone_numbers = {}  # key: customer, value: phone number
         self.branches = []
         # moved to Branch: self.branch_opening_times = {}  # key: branch, value: opening time
         self.payroll = None
@@ -37,13 +37,6 @@ class Bank:
         branch.close_branch(transfer_branch)
         self.branches.remove(branch)
 
-    # Removed as can just use set_opening_time instead on the branch.
-    # Otherwise, it doesn't make logical sense to be in the Bank class; would be a static method.
-    #def change_branch_opening_time(self, branch: Branch, time: str): # Branch
-    #    self.branch_opening_times[branch] = time
-
-    # Everything above has been refactored, rest will do later:
-
     def setup_new_account(self, account: Account, customer: Customer): # Account or Customer? maybe dont move.
         account.set_customer(customer)
         self.accounts.append(account)
@@ -54,9 +47,9 @@ class Bank:
             self.customers.append(customer)
 
     def close_account(self, account: Account): # Account
-        account.close_account()
+        account.close_account() # delegated to Account
         self.accounts.remove(account)
 
-    def change_payroll_date(self, payroll: Payroll, date: str, staff_category: str): # maybe Payroll?
+    def change_payroll_date(self, payroll: Payroll, date: str, staff_category: str): # Payroll
         self.payroll = payroll
         payroll.change_payroll_date(date, staff_category)
