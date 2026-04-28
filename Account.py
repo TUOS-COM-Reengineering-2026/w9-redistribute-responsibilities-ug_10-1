@@ -22,3 +22,9 @@ class Account:
 
     def set_interest_rate(self, rate):
         self.interest_rate = rate
+    
+    def apply_interest(self):
+        balance = self.get_balance()
+        interest_rate = self.get_interest_rate()
+        interest = balance * interest_rate
+        self.set_balance(balance + interest)

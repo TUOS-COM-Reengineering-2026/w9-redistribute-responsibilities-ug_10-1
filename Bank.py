@@ -25,8 +25,8 @@ class Bank:
         self.branches.remove(branch)
 
     def transfer_staff_member(self, from_branch: Branch, to_branch: Branch, staff: Staff):
-        from_branch.get_staff().remove(staff)
-        to_branch.get_staff().append(staff)
+        from_branch.remove_staff_member(staff)
+        to_branch.add_staff_member(staff)
 
     def setup_new_account(self, account: Account, customer: Customer):
         account.set_customer(customer)
@@ -41,10 +41,7 @@ class Bank:
         return account.get_balance()
 
     def add_interest(self, account: Account):
-        balance = account.get_balance()
-        interest_rate = account.get_interest_rate()
-        interest = balance * interest_rate
-        account.set_balance(balance + interest)
+        account.apply_interest()
 
     def add_funds(self, account: Account, amount: float):
         balance = account.get_balance()
@@ -56,11 +53,12 @@ class Bank:
         self.accounts.remove(account)
 
     def add_staff_member(self, branch: Branch, staff: Staff):
-        branch.get_staff().append(staff)
+        branch.add_staff_member(staff)
 
     def change_opening_time(self, branch: Branch, time: str):
         self.branch_opening_times[branch] = time
 
     def change_payroll_date(self, payroll: Payroll, date: str, staff_category: str):
         self.payroll = payroll
-        self.payroll.get_staff_category_pay_schedule(staff_category).set_pay_date(date)
+        self.payroll.get_staff_category_pay_schedule(staff_category, date)
+    
