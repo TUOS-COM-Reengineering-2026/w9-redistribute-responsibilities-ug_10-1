@@ -30,3 +30,6 @@ class Branch:
     def transfer_staff_member(self, to_branch, staff: Staff): # Branch
         self.get_staff().remove(staff)
         to_branch.get_staff().append(staff)
+
+    def add_staff_member(self, staff: Staff): # Branch
+        self.get_staff().append(staff)

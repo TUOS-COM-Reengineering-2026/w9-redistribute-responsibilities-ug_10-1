@@ -38,7 +38,7 @@ class Bank:
         self.branches.remove(branch)
 
     # Removed as can just use set_opening_time instead on the branch.
-    # Otherwise, it doesnt make logical sense to be in the Bank class; would be a static method.
+    # Otherwise, it doesn't make logical sense to be in the Bank class; would be a static method.
     #def change_branch_opening_time(self, branch: Branch, time: str): # Branch
     #    self.branch_opening_times[branch] = time
 
@@ -49,32 +49,14 @@ class Bank:
         self.accounts.append(account)
 
         if customer not in self.customers:
+            customer.set_address("NO ADDRESS") # default address
+            customer.set_phone_number("NO PHONE NUMBER") # default phone number
             self.customers.append(customer)
-            self.customer_addresses[customer] = "NO ADDRESS"  # default address
-            self.customer_phone_numbers[customer] = "NO PHONE NUMBER"  # default phone number
-
-    def obtain_balance(self, account: Account):# Account
-        return account.get_balance()
-
-    def add_interest(self, account: Account): # Account
-        balance = account.get_balance()
-        interest_rate = account.get_interest_rate()
-        interest = balance * interest_rate
-        account.set_balance(balance + interest)
-
-    def add_funds(self, account: Account, amount: float): # Account
-        balance = account.get_balance()
-        account.set_balance(balance + amount)
 
     def close_account(self, account: Account): # Account
-        account.set_customer(None)
-        account.set_balance(0)
+        account.close_account()
         self.accounts.remove(account)
-
-    def add_staff_member(self, branch: Branch, staff: Staff): # Branch
-        branch.get_staff().append(staff)
-
 
     def change_payroll_date(self, payroll: Payroll, date: str, staff_category: str): # maybe Payroll?
         self.payroll = payroll
-        self.payroll.get_staff_category_pay_schedule(staff_category).set_pay_date(date)
+        payroll.change_payroll_date(date, staff_category)
